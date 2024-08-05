@@ -233,3 +233,63 @@ const handleSearch = useDebouncedCallback((term) => {
 
 }
 ```
+
+## Mutating Data
+
+### Server Actions
+
+#### What Are Server Actions?
+
+* Async functions, executing on the server, that can be run from Client or Server components.
+
+#### What Can They Do?
+
+##### Sercurity
+
+They also offer effective security solutions...
+
+* POST requests,
+* encrypted closures,
+* strict input checks,
+* error message hashing,
+* and host restrictions.
+* P.S. forms work even if JS is disabled on the client
+
+##### Caching
+
+Server Actions are integrated with Next's caching. Use `revalidatePath` and `revalidateTag` to revalidate the cache.
+
+#### Creating a Server Action
+
+1. Add `'use server';` to the top of your .ts/.js file housing only the server-action-function(s)
+2. Add `'use server';` to the top of the function, when it exists in a server component (tsx/jsx file)
+
+React's normal 'action' attribute in form-els, invokes a Server Action.
+
+```tsx
+// Server Component w/Server Action
+export default function Page() {
+  // Action Function
+  async function create(formData: FormData) {
+    'use server';
+ 
+    // Logic to mutate data...
+  }
+ 
+  // Invoke the action using the "action" attribute
+  return <form action={create}>...</form>;
+}
+```
+
+or...
+
+```ts
+// Server Action in its own ts/js file
+'use server';
+
+export async function createInvoice(formData: FormData) {
+  // mutate data
+}
+```
+
+Server Actions create a POST API endpoint for us behind the scenes so we don't have to manually create them.

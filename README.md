@@ -24,14 +24,21 @@ npx create-next-app@latest nextjs-dashboard --example "<https://github.com/verce
 * loading.tsx
   * A template to replace content that's loading
   * Learn more in [Streaming - How](#how)
+* error.tsx
+  * Catch all errors in and show a fallback UI
+  * uses notFound() `import { notFound } from 'next/navigation';`
+* not-found.tsx
+  * Handle 404s
+  * uses notFound() `import { notFound } from 'next/navigation';`
+  * Takes precedence over error.tsx
 
 ### Special Folders
 
 * (any_name_you_want)
-  * Putting parens around a subfolder to allow you to seperate files in a folder without affecting routing
+  * Putting parens around a subfolder to allow you to seperate files in a folder without affecting the [nested routing](#nested-routing) behavior
     * What you can do:
-      * Organization files
-      * Move a loading.tsx and page.tsx into this subfolder so the loading.tsx will only affect the root /dashboard page and not it's sub-routes
+      * Organize files
+      * Move a loading.tsx and page.tsx into this subfolder to prevent loading.tsx's rerendering from affecting the layout.tsx and subroutes.
 
 ### File Structure
 
@@ -47,9 +54,9 @@ Next uses "file-system routing" which  relies on how folders are nested.
 
 Utilizes page.tsx & layout.tsx (layout.tsx is a page template)
 
-* folder = app
+* folder called "app"
   * page.tsx ( <www.example.com> )
-  * folder = dashboard
+  * folder called "dashboard"
     * page.tsx ( <www.example.com/dashboard> )
 
 The route '/dashboard' comes from the folder's name 'dashboard'. Changing the 1st letter, 'd', to upper/lowercase requires a restart and the route will need to be upper/lowercase to match. I.E Folder named 'Dashboard' needs a url like example.com/Dashboard
@@ -68,7 +75,7 @@ Client servers have `'use client';` at the top of the file, whereas Server compo
 * No ORM
 * seed data in app/seed/route.ts (navigate to /api in browser to run seeding)
 * To not expose api secrets
-  * [Route Handles](https://nextjs.org/docs/app/building-your-application/routing/route-handlers) in the app folder
+  * [Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers) in the app folder
   * or use React Server Components (Next's default components)
     * Benefits:
       * Supports promises. Unlike React Components that need useEffects
@@ -88,9 +95,9 @@ const {
 } = await fetchCardData()                           // then we can do this
 ```
 
-Sometimes we need to wait for a previous request to complete before doing another.
+Sometimes this is ideal when we need to wait for a previous request to complete before doing another.
 
-To run requests in parallel we can use `promise.all()`
+When you don't need to wait, run requests in parallel with `promise.all()`
 
 ```ts
 const data = await Promise.all([                    // all 3 requests start at the same time

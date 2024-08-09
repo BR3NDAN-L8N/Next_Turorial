@@ -31,6 +31,13 @@ npx create-next-app@latest nextjs-dashboard --example "<https://github.com/verce
   * Handle 404s
   * uses notFound() `import { notFound } from 'next/navigation';`
   * Takes precedence over error.tsx
+* middleware.ts
+  * Handles middleware
+  * Goes in the root of the project
+* auth.config.ts
+  * Handles authentication (and authorization?)
+  * Goes in the root of the project
+  * Use with middleware.ts (and it's matcher option) to protect routes. Keeps them from rendering until middleware verifies authentication.
 
 ### Special Folders
 
